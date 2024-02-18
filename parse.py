@@ -51,7 +51,7 @@ def parse_from_data_dir() -> list[Listing]:
 
 
 
-def filter_listings(listings: list[Listing]):
+def filter_listings(listings: list[Listing]) -> list[Listing]:
     DESIRED_TUNNELBANA = SÖDER + ÖSTERMALM + CENTRUM
     RES = []
     for listing in listings:
@@ -59,7 +59,7 @@ def filter_listings(listings: list[Listing]):
             continue
         if listing.floor is None or listing.floor < 2:
             continue
-        if listing.living_area is None or listing.living_area < 50:
+        if listing.living_area is None or listing.living_area < 43:
             continue
         if not any(
             list(
