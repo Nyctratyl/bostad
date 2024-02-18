@@ -1,4 +1,5 @@
 .venv
-links
+seen
 __pycache__
 data
+seen_links

@@ -20,3 +20,6 @@ class Listing:
         if self.floor is not None:
             s += f" vån {self.floor}"
         return s
+    
+    def link(self) -> str:
+        return "https://www.hemnet.se/bostad/" + self.slug
