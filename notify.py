@@ -11,6 +11,7 @@ links_file = open('seen_links', mode='r')
 seen_links = links_file.read().split('\n')
 links_file.close()
 current_listings = parse_from_data_dir()
+current_listings = filter_listings(current_listings)
 for listing in current_listings:
     if listing.link() not in seen_links:
         notify(listing)
