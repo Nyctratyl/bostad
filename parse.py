@@ -5,17 +5,13 @@ from tunnelbana import *
 from listing import *
 from parsers import *
 import datetime
+import logging
+
+logging.basicConfig(level=logging.WARNING)
 
 def parse_from_data_dir() -> list[Listing]:
     DATA_PATH = "./data"
-    DESIRED_TUNNELBANA = [
-        MARIATORGET,
-        HORNSTULL,
-        ZINKENSDAMM,
-        MEDBORGARPLATSEN,
-        SLUSSEN,
-        SKANSTULL
-    ]
+
 
     filenames = os.listdir(DATA_PATH)
     LISTING_CARDS = []
@@ -32,10 +28,9 @@ def parse_from_data_dir() -> list[Listing]:
     LISTINGS: list[Listing] = []
     for listing_card in LISTING_CARDS:
         address = listing_card["streetAddress"]
-
-        #print(address)
-        coords = listing_card["coordinates"]
-        #print(listing_card["publishedAt"])
+        if False and "Kammakargatan 44" in address:
+            logging.getLogger().setLevel(level=logging.DEBUG)
+        logging.debug(address)
         listing = Listing(
             id = listing_card["id"],
             publish_date=datetime.datetime.fromtimestamp(float(listing_card["publishedAt"])),
@@ -50,15 +45,19 @@ def parse_from_data_dir() -> list[Listing]:
         )
 
         LISTINGS = LISTINGS + [listing]
-        #print("==============")
+        logging.debug("==============")
+        logging.getLogger().setLevel(level=logging.WARNING)
+    return LISTINGS
 
 
-    #print("PARSE DONE")
+
+def filter_listings(listings: list[Listing]):
+    DESIRED_TUNNELBANA = SÖDER + ÖSTERMALM + CENTRUM
     RES = []
-    for listing in LISTINGS:
+    for listing in listings:
         if listing.asking_price is None or listing.asking_price > 5000000:
             continue
-        if listing.floor is None or listing.floor < 3:
+        if listing.floor is None or listing.floor < 2:
             continue
         if listing.living_area is None or listing.living_area < 50:
             continue
@@ -77,5 +76,6 @@ def parse_from_data_dir() -> list[Listing]:
 
 if __name__ == "__main__":
     links = parse_from_data_dir()
+    links = filter_listings(links)
     for res in links:
         print(res.link())

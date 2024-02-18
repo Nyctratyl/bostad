@@ -1,15 +1,18 @@
 from typing import Optional
 import re
+import logging
 
 def parse_floor(floor: str) -> Optional[float]:
+    logging.debug(floor)
     if floor is None:
         return None
-    format_1 = re.findall("\d/\d", floor)
-    if len(format_1) == 1:
-        return float(format_1[0][0])
-    if "-" in floor:
-        return float(floor[4:6])
-    return float(floor[4])
+    
+    if "/" in floor:
+        floor = floor[:floor.index("/")]
+    if "vån " in floor:
+        floor = floor.replace("vån ", "")
+    floor = floor.replace(",", ".")
+    return float(floor)
     
 
 def parse_asking(asking: str) -> Optional[int]:
