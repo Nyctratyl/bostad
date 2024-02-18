@@ -1,4 +1,4 @@
 #!/bin/bash
-#./scrape.sh
+./scrape.sh
 source .venv/bin/activate
 python notify.py
