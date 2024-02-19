@@ -44,10 +44,12 @@ def parse_from_data_dir() -> list[Listing]:
             slug=listing_card["slug"]
         )
 
+
         LISTINGS = LISTINGS + [listing]
         logging.debug("==============")
         logging.getLogger().setLevel(level=logging.WARNING)
-    return LISTINGS
+    unique = {o.id: o for o in LISTINGS}.values()
+    return unique
 
 
 
